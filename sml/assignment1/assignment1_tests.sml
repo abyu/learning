@@ -21,3 +21,9 @@ val no_dates_are_in_month_6 = dates_in_month([(2102, 2, 3), (2123, 2, 4), (2132,
 val three_dates_are_in_months_3_5_8 = dates_in_months([(2102, 3, 3), (2123, 3, 4), (2133, 5, 3), (2013, 10, 2)], [3, 5, 8]) = [(2102, 3, 3), (2123, 3, 4), (2133, 5, 3)]
 
 val no_dates_are_in_month_8_6_7 =  dates_in_months([(2102, 3, 3), (2123, 3, 4), (2133, 5, 3), (2013, 10, 2)], [8, 6, 7]) = [] 
+
+val get_the_2nd_string_in_3_string_list = get_nth(["string one", "string two", "string three"], 2) = "string two"
+
+val return_empty_string_with_too_few_strings = get_nth(["string one"], 4) = ""
+
+val date_is_displayed_as_string = date_to_string(2012, 12, 21) = "December 21, 2012"
