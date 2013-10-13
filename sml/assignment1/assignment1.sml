@@ -44,3 +44,86 @@ fun date_to_string(date : (int*int*int)) =
     in
 	get_nth(month_names, #2 date) ^" "^ Int.toString (#3 date)^", " ^ Int.toString (#1 date)
     end
+
+fun number_before_reaching_sum(sum : int, values : int list) = 
+    if sum <= hd values
+    then 0
+    else 1 + number_before_reaching_sum(sum - hd values, tl values)
+			      
+fun what_month(day : int) = 
+    let 
+	val month_days = [31, 28, 31, 30, 31,  30, 31, 31, 30, 31, 30, 31];						     
+    in 
+	number_before_reaching_sum(day, month_days) + 1
+    end
+
+fun month_range(day1 : int, day2 : int) = 
+    if day1 > day2 
+    then []
+    else
+	what_month(day1) :: month_range(day1 + 1, day2)
+
+fun oldest(dates : (int*int*int) list) = 
+    if null dates
+    then NONE
+    else
+	let val oldest_tl = oldest(tl dates)
+	in
+	    if isSome oldest_tl andalso (not (is_older(hd dates, valOf oldest_tl))) 
+	    then oldest_tl 
+	    else SOME (hd dates)
+	end
+
+fun contains(number : int, numbers : int list) =
+    if null numbers 
+    then false 
+    else 
+	if number = hd numbers
+	then true
+	else contains(number, tl numbers)
+
+fun remove_duplicates(numbers : int list) =
+    if null numbers then []
+    else 
+	if contains(hd numbers, tl numbers) 
+	then remove_duplicates (tl numbers)
+	else hd numbers :: remove_duplicates (tl numbers)
+	    
+fun number_in_months_challenge(dates : (int*int*int) list, months : int list) =
+    number_in_months(dates, remove_duplicates months)
+
+fun dates_in_months_challenge(dates : (int*int*int) list, months : int list) = 
+    dates_in_months(dates, remove_duplicates months)
+
+
+fun resonable_date(date : (int*int*int)) = 
+    let
+	val leap_and_nonleap_years_months = ([31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],  [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]);
+	val year = #1 date;
+	val month = #2 date;
+	val day = #3 date;
+	fun get_nth(values : int list, n : int) =
+	    if null values
+	    then 0
+	    else
+		(if n = 1
+		then hd values
+		else get_nth(tl values, n - 1))	    
+	
+	fun year_type() =
+	    if year < 0 then NONE
+	    else 
+		if ((year mod 400) = 0 orelse ((year mod 4) = 0 andalso (not ((year mod 100) = 0)))) 
+		then SOME 1 
+		else SOME 2
+	
+	fun months() = 
+	    if (isSome (year_type())) 
+	    then SOME (if (valOf (year_type())) = 1 then #1 leap_and_nonleap_years_months else #2 leap_and_nonleap_years_months) 
+	    else NONE			     
+	
+    in
+	if (isSome (months())) andalso day <= get_nth((valOf (months())), month)
+	then true  
+	else false
+    end	
