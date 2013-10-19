@@ -36,6 +36,22 @@ fun get_substitutions1(substitutions, str) =
 	  | x::xs' => to_list(all_except_option(str, x)) @ get_substitutions1(xs', str)
     end
 
+fun get_substitutions2(substitutions, str) =
+    let
+	fun to_list(ol) =
+	    case ol of
+		NONE => []
+	     | SOME x => x
+	fun aux(substitutions, str, acc) =
+	    case substitutions of
+		[] => acc
+	      | x::xs' => aux(xs', str, acc @ to_list(all_except_option(str, x)))
+
+    in
+	aux(substitutions, str, [])
+    end
+
+
 fun substitute_first(substitutes, {first=f, middle=m, last=l}) =
     case substitutes of
 	[] => []
@@ -43,7 +59,7 @@ fun substitute_first(substitutes, {first=f, middle=m, last=l}) =
 
 fun similar_names(substitutions, {first=f, middle=m, last=l}) =
     let
-	val substitutes = get_substitutions1(substitutions, f)
+	val substitutes = get_substitutions2(substitutions, f)
     in
 	{first=f, middle=m, last=l}::substitute_first(substitutes , {first=f, middle=m, last=l})
     end
@@ -84,3 +100,13 @@ fun all_same_color cards =
 	[] => true
      | c::[] => true
      | c1::c2::xs' => card_color(c1) = card_color(c2) andalso all_same_color(c2::xs')
+
+fun sum_cards cards =
+    let
+	fun sum_with_accum(cards, acc) =
+	    case cards of
+		[] => acc
+	     | x::xs' => sum_with_accum(xs', card_value(x) + acc)
+    in
+	sum_with_accum(cards, 0)
+    end

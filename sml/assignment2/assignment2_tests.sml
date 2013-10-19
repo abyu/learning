@@ -17,6 +17,10 @@ val all_the_substitutions_ignoring_orign_string_is_returned = get_substitutions1
 
 val empty_list_when_no_substitutions_found = get_substitutions1(substitution_strings, "Me") = []
 
+val tr_all_the_substitutions_ignoring_orign_string_is_returned = get_substitutions2(substitution_strings, "Fred") = ["Fredrick", "Freddie", "F"]
+
+val tr_empty_list_when_no_substitutions_found = get_substitutions2(substitution_strings, "Me") = []
+
 val names_list_with_substituted_first_names_is_returned = similar_names(substitution_strings, {first="Fred", last="Smith", middle="W"}) = [{first="Fred", last="Smith", middle="W"},
                     {first="Fredrick", last="Smith", middle="W"},
                     {first="Freddie", last="Smith", middle="W"},
@@ -41,4 +45,7 @@ val raise_exception_when_card_is_not_present = (remove_card(cards, (Clubs, Ace),
 val all_cards_have_dont_have_same_color = all_same_color cards = false
 
 val same_colored_cards = [(Spades, Num 2), (Spades, Ace), (Spades, Num 3), (Spades, Jack), (Spades, Ace), (Spades, King)]
+
 val all_card_have_same_color = all_same_color same_colored_cards
+
+val cards_have_total_sum_of_58 = sum_cards cards = 58
