@@ -22,3 +22,23 @@ val names_list_with_substituted_first_names_is_returned = similar_names(substitu
                     {first="Freddie", last="Smith", middle="W"},
                     {first="F", last="Smith", middle="W"}]
 
+val spades_are_black = card_color (Spades, Num 1)
+
+val hearts_are_red = card_color (Hearts, Num 2)
+
+val card_with_num_2_has_value_2 = card_value (Clubs, Num 2) = 2
+
+val ace_has_value_11 = card_value (Diamonds, Ace) = 11
+
+val jack_has_value_10 = card_value (Spades, Jack) = 10
+
+exception Dummy
+val cards = [(Spades, Num 2), (Spades, Ace), (Spades, Num 3), (Diamonds, Ace), (Hearts, Jack), (Spades, Ace), (Spades, King)]
+val remove_card_from_list_only_once_eventhough_when_present_lots = remove_card (cards, (Spades, Ace), Dummy) = [(Spades, Num 2), (Spades, Num 3), (Diamonds, Ace), (Hearts, Jack), (Spades, Ace), (Spades, King)] 
+
+val raise_exception_when_card_is_not_present = (remove_card(cards, (Clubs, Ace), Dummy) handle Dummy => []) = []
+
+val all_cards_have_dont_have_same_color = all_same_color cards = false
+
+val same_colored_cards = [(Spades, Num 2), (Spades, Ace), (Spades, Num 3), (Spades, Jack), (Spades, Ace), (Spades, King)]
+val all_card_have_same_color = all_same_color same_colored_cards

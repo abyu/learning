@@ -60,3 +60,27 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
+
+fun card_color acard =
+    case acard of
+	(Hearts, _) => Red
+     | (Diamonds, _) => Red
+     | (Clubs, _) => Black
+     | (Spades, _) => Black
+ 
+fun card_value acard =
+    case acard of
+	(_, Num x) => x
+     | (_, Ace) => 11
+     | _ => 10
+
+fun remove_card(cards, c, e) =
+    case cards of
+	[] => raise e
+     | x::xs' => if c=x then xs' else x::remove_card(xs', c, e)
+
+fun all_same_color cards =
+    case cards of
+	[] => true
+     | c::[] => true
+     | c1::c2::xs' => card_color(c1) = card_color(c2) andalso all_same_color(c2::xs')
