@@ -110,3 +110,27 @@ fun sum_cards cards =
     in
 	sum_with_accum(cards, 0)
     end
+
+fun score(held_cards, goal) =
+    let
+	val sum = sum_cards held_cards
+	val preliminary_score =  if sum > goal then 3 * (sum - goal) else (goal - sum)
+    in
+	if all_same_color(held_cards) then preliminary_score div 2 else preliminary_score
+    end
+
+fun officiate(cards, moves, goal) = 
+    let
+	fun game_state(cards, moves, held_cards) = 
+	    case moves of
+		[] => held_cards
+	     | (Discard c)::xs' => game_state(cards, xs', remove_card(held_cards, c, IllegalMove))
+	     | (Draw)::xs' => case cards of
+				  [] => held_cards
+			       |y::_ => if(sum_cards(y::held_cards) > goal) 
+					 then y::held_cards
+					 else game_state(remove_card(cards, y, IllegalMove), xs', y::held_cards)
+    in
+	score(game_state(cards, moves, []), goal)
+    end
+

@@ -40,7 +40,7 @@ exception Dummy
 val cards = [(Spades, Num 2), (Spades, Ace), (Spades, Num 3), (Diamonds, Ace), (Hearts, Jack), (Spades, Ace), (Spades, King)]
 val remove_card_from_list_only_once_eventhough_when_present_lots = remove_card (cards, (Spades, Ace), Dummy) = [(Spades, Num 2), (Spades, Num 3), (Diamonds, Ace), (Hearts, Jack), (Spades, Ace), (Spades, King)] 
 
-val raise_exception_when_card_is_not_present = (remove_card(cards, (Clubs, Ace), Dummy) handle Dummy => []) = []
+val raise_exception_when_card_is_not_present = (remove_card(cards, (Clubs, Ace), Dummy); false) handle Dummy => true
 
 val all_cards_have_dont_have_same_color = all_same_color cards = false
 
@@ -49,3 +49,15 @@ val same_colored_cards = [(Spades, Num 2), (Spades, Ace), (Spades, Num 3), (Spad
 val all_card_have_same_color = all_same_color same_colored_cards
 
 val cards_have_total_sum_of_58 = sum_cards cards = 58
+
+val held_cards = [(Spades, Num 2), (Spades, Ace), (Diamonds, Num 3)]
+val score_is_3_times_the_diff_when_not_same_colored_cards_value_is_more_than_goal = score(held_cards, 14) = 6
+val score_is_just_the_diff_when_not_same_colored_cards_value_is_less_than_goal = score(held_cards, 18) = 2
+
+val held_cards = [(Spades, Num 2), (Spades, Ace), (Spades, Num 3)]
+val score_is_1_with_same_colored_held_cards_with_value_one_more_than_goal = score(held_cards, 15) = 1 
+val score_is_1_when_not_same_colored = score((Diamonds, Num 2)::held_cards, 17) = 3
+
+val cards = [(Spades, Num 2), (Hearts, Ace), (Spades, Num 3), (Diamonds, Num 2), (Spades, Ace), (Spades, Num 3)]
+val moves = [Draw, Draw, Discard (Spades, Num 2), Draw]
+val game_play_scoring_3 = officiate(cards, moves, 13) = 3
