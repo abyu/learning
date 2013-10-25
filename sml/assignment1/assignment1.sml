@@ -123,7 +123,5 @@ fun resonable_date(date : (int*int*int)) =
 	    else NONE			     
 	
     in
-	if (isSome (months())) andalso day <= get_nth((valOf (months())), month)
-	then true  
-	else false
+	 (isSome (months())) andalso day <= get_nth((valOf (months())), month)
     end	
