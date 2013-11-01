@@ -59,3 +59,44 @@ val longest_string4  = longest_string_helper (fn (x,y) => x >= y)
 val longest_capitalized = longest_string1 o only_capitals
 
 val rev_string = implode o rev o explode
+
+fun first_answer f xs = 
+    case xs of
+	[] => raise NoAnswer
+      | x::xs => case f x of
+		    NONE => first_answer f xs
+		  | SOME v => v 
+
+fun all_answers f xs = 
+    let
+	fun compute f xs acc = 
+	    case xs of
+		[] => acc
+	      | x::xs => case f x of
+			     NONE => raise NoAnswer
+			   | SOME v => compute f xs (acc @ v)
+    in
+	SOME (compute f xs []) handle NoAnswer => NONE
+    end
+
+
+fun count_wildcards p = g (fn () => 1) (fn x => 0) p;
+
+fun count_wild_and_variable_lengths p = g (fn () => 1) (fn x => 1) p;
+
+fun count_some_var (str, p) =g (fn () => 0) (fn x => (if str = x then 1 else 0)) check_string_count p;
+
+fun check_pat p =
+    let 
+	val variables : string list ref = ref [];
+	fun dups xs =
+	    case xs of
+		[] => true
+	     | x::xs => not (List.exists (fn y => x=y) xs) andalso dups xs
+    in	     
+	g (fn () => 0) (fn x => (variables := !variables @ [x]; 0)) p; 
+	dups (!variables)
+    end
+    
+
+	
