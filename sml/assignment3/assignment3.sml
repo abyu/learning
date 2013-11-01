@@ -84,7 +84,7 @@ fun count_wildcards p = g (fn () => 1) (fn x => 0) p;
 
 fun count_wild_and_variable_lengths p = g (fn () => 1) (fn x => 1) p;
 
-fun count_some_var (str, p) =g (fn () => 0) (fn x => (if str = x then 1 else 0)) check_string_count p;
+fun count_some_var (str, p) =g (fn () => 0) (fn x => (if str = x then 1 else 0))  p;
 
 fun check_pat p =
     let 
