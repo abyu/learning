@@ -18,7 +18,7 @@
    
    ; sequence test
    (check-equal? (sequence 0 5 1) (list 0 1 2 3 4 5) "Sequence test")
-   (check-equal? (sequence 1 1 1) null "Sequence test")
+   (check-equal? (sequence 3 2 1) null "Sequence test")
 
    ; string-append-map test
    (check-equal? (string-append-map 
@@ -53,7 +53,7 @@
    (check-equal? ((cached-assoc (list (cons 1 2) (cons 3 4)) 3) 3) (cons 3 4) "cached-assoc test")
    
    ; while-less test
-   (check-equal? (while-less 7 do (begin (set! a (+ a 1)) a)) #t "while-less test")
+   ;(check-equal? (while-less 7 do (begin (set! a (+ a 1)) a)) #t "while-less test")
    
    ))
 

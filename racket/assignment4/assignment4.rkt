@@ -11,8 +11,8 @@
   (map (lambda (x) = (string-append x suffix)) xs))
 
 (define (list-nth-mod xs n)
-  (cond [(< n 0) error "list-nth-mod: negative number"]
-        [(null? xs) error "list-nth-mod: empty list"]
+  (cond [(< n 0) (error "list-nth-mod: negative number")]
+        [(null? xs) (error "list-nth-mod: empty list")]
         [#t (let ([i (remainder n (length xs))]) 
                (car (list-tail xs i)))]))
 
@@ -34,7 +34,7 @@
 
 (define (stream-add-zero s)
   (lambda ()
-  (cons (cons 0 (car (s))) (lambda () (stream-add-zero (cdr (s)))))))
+  (cons (cons 0 (car (s))) (lambda () ((stream-add-zero (cdr (s))))))))
 
 (define (cycle-lists xs ys)
   (letrec ([f (lambda (x) 
@@ -60,6 +60,7 @@
                    (if ans  
                        ans
                        (begin (vector-set! r-cache free-pos (assoc v xs))
+                              (set! free-pos (remainder (+ free-pos 1) n))
                               (vector-assoc v r-cache))                               
                    )))])
   (lambda (v) (load v))))
