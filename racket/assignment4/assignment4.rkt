@@ -41,3 +41,26 @@
                 (cons (cons (list-nth-mod xs x) (list-nth-mod ys x))
                                (lambda () (f (+ x 1)))))])
     (lambda () (f 0))))
+
+(define (vector-assoc v vec)
+  (letrec ([find-from (lambda (i)
+                        (if (< i (vector-length vec))
+                            (let ([val (vector-ref vec i)])
+                            (if (and (pair? val) (equal? (car val) v)) 
+                                val 
+                                (find-from (+ i 1)))) 
+                            #f))])
+    (find-from 0)))
+
+(define (cached-assoc xs n)
+  (letrec ([r-cache (make-vector n)]
+           [free-pos 0]
+           [load (lambda (v) 
+                   (let ([ans (vector-assoc v r-cache)])
+                   (if ans  
+                       ans
+                       (begin (vector-set! r-cache free-pos (assoc v xs))
+                              (vector-assoc v r-cache))                               
+                   )))])
+  (lambda (v) (load v))))
+           

@@ -5,7 +5,7 @@
 
 ;; Be sure to put your homework file in the same folder as this test file.
 ;; Uncomment the line below and change HOMEWORK_FILE to the name of your homework file.
-;;(require "HOMEWORK_FILE")
+(require "assignment4.rkt")
 (require rackunit)
 
 ;; Helper functions
@@ -18,6 +18,7 @@
    
    ; sequence test
    (check-equal? (sequence 0 5 1) (list 0 1 2 3 4 5) "Sequence test")
+   (check-equal? (sequence 1 1 1) null "Sequence test")
 
    ; string-append-map test
    (check-equal? (string-append-map 
@@ -45,6 +46,8 @@
    
    ; vector-assoc test
    (check-equal? (vector-assoc 4 (vector (cons 2 1) (cons 3 1) (cons 4 1) (cons 5 1))) (cons 4 1) "vector-assoc test")
+   
+   (check-equal? (vector-assoc 2 (vector (cons 3 2) (cons 5 34) (cons 4 8))) #f "Vector=assoc test")
    
    ; cached-assoc tests
    (check-equal? ((cached-assoc (list (cons 1 2) (cons 3 4)) 3) 3) (cons 3 4) "cached-assoc test")
