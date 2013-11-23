@@ -5,17 +5,19 @@
 
 class MyPiece < Piece
   # The constant All_My_Pieces should be declared here
-
   # your enhancements here
-
   def self.my_next_piece (board)
     Piece.new(All_My_Pieces.sample, board)
+  end
+
+  def self.cheat_piece (board)
+    Piece.new([[[0, 0]]], board)
   end
 
   All_My_Pieces = All_Pieces +
   [rotations([[0, 0], [1, 0], [0, 1], [1, 1], [2, 1]]),
     [[[0, 0], [-1, 0], [1, 0], [2, 0], [3, 0]], [[0, 0], [0, -1], [0, 1], [0, 2], [0, 3]]],
-    rotations([[0,0], [0, 1], [1, 1], [1, 1]])]
+    rotations([[0,0], [0, 1], [1, 1]])]
 
 end
 
@@ -28,8 +30,18 @@ class MyBoard < Board
 
    # gets the next piece
   def next_piece
-    @current_block = MyPiece.my_next_piece(self)
+    @current_block = @force_next_piece || MyPiece.my_next_piece(self)
+    @force_next_piece = nil
     @current_pos = nil
+  end
+
+  def cheat_once
+    unless @force_next_piece
+      if self.score >= 100
+        @score -= 100
+        @force_next_piece = MyPiece.cheat_piece(self)
+      end
+    end
   end
 
   def store_current
@@ -49,12 +61,10 @@ class MyBoard < Board
     end
     draw
   end
-
 end
 
 class MyTetris < Tetris
   # your enhancements here
-
  def initialize
   super
   my_key_bindings  
@@ -70,8 +80,6 @@ class MyTetris < Tetris
 
   def my_key_bindings  
     @root.bind('u', proc {@board.invert}) 
+    @root.bind('c', proc {@board.cheat_once})
   end
-
 end
-
-
