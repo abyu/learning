@@ -12,11 +12,35 @@ end
 
 class MyBoard < Board
   # your enhancements here
+  def invert
+  	if !game_over? and @game.is_running?
+      @current_block.move(0, 0, 2)
+    end
+    draw
+  end
 
 end
 
 class MyTetris < Tetris
   # your enhancements here
+
+	def initialize
+		super
+		set_my_board
+		my_key_bindings		
+	end
+
+	def set_my_board
+    @canvas = TetrisCanvas.new
+    @board = MyBoard.new(self)
+    @canvas.place(@board.block_size * @board.num_rows + 3,
+                  @board.block_size * @board.num_columns + 6, 24, 80)
+    @board.draw
+  end
+
+  def my_key_bindings  
+    @root.bind('u', proc {@board.invert}) 
+  end
 
 end
 
